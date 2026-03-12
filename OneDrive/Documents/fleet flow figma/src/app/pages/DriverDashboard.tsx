@@ -531,9 +531,9 @@ function MetricDetailModal({ metric, onClose }: MetricDetailModalProps) {
   const detailData = {
     earnings: {
       title: "This Month's Earnings",
+      subtitle: "Earnings by distance category",
       icon: <DollarSign className="w-8 h-8" />,
       color: "green",
-      current: "$8,450",
       data: [
         { month: "Jan", value: 6200 },
         { month: "Feb", value: 6800 },
@@ -547,12 +547,17 @@ function MetricDetailModal({ metric, onClose }: MetricDetailModalProps) {
         { label: "Regional (100-500mi)", value: "$2,400", percentage: "28.4%", change: "+$320" },
         { label: "Local (<100mi)", value: "$850", percentage: "10.1%", change: "+$120" },
       ],
+      stats: [
+        { label: "Total", value: "$8,450", change: "+$1,250", trend: "up" as const },
+        { label: "Avg Load", value: "$704", change: "+$104", trend: "up" as const },
+        { label: "Growth", value: "+36.2%", change: "+6.2%", trend: "up" as const },
+      ]
     },
     active: {
       title: "Active Load",
+      subtitle: "Current load status",
       icon: <Package className="w-8 h-8" />,
       color: "blue",
-      current: "1",
       data: [
         { month: "Jan", value: 2 },
         { month: "Feb", value: 3 },
@@ -566,12 +571,17 @@ function MetricDetailModal({ metric, onClose }: MetricDetailModalProps) {
         { label: "Loading", value: "0", percentage: "0%", change: "0" },
         { label: "Unloading", value: "0", percentage: "0%", change: "0" },
       ],
+      stats: [
+        { label: "Active", value: "1", change: "0", trend: "up" as const },
+        { label: "Progress", value: "65%", change: "+15%", trend: "up" as const },
+        { label: "ETA", value: "2.5h", change: "-0.5h", trend: "up" as const },
+      ]
     },
     assigned: {
       title: "Assigned Loads",
+      subtitle: "Loads ready for pickup",
       icon: <Package className="w-8 h-8" />,
       color: "orange",
-      current: "2",
       data: [
         { month: "Jan", value: 18 },
         { month: "Feb", value: 20 },
@@ -585,12 +595,17 @@ function MetricDetailModal({ metric, onClose }: MetricDetailModalProps) {
         { label: "In Progress", value: "0", percentage: "0%", change: "0" },
         { label: "Completed Today", value: "0", percentage: "0%", change: "0" },
       ],
+      stats: [
+        { label: "Assigned", value: "2", change: "+2", trend: "up" as const },
+        { label: "Avg Value", value: "$1,115", change: "+$115", trend: "up" as const },
+        { label: "Total Value", value: "$2,230", change: "+$230", trend: "up" as const },
+      ]
     },
     ontime: {
       title: "On-Time Rate",
+      subtitle: "Delivery performance",
       icon: <TrendingUp className="w-8 h-8" />,
       color: "purple",
-      current: "98.3%",
       data: [
         { month: "Jan", value: 96.5 },
         { month: "Feb", value: 97.0 },
@@ -604,6 +619,11 @@ function MetricDetailModal({ metric, onClose }: MetricDetailModalProps) {
         { label: "Delayed", value: "2", percentage: "1.7%", change: "-1" },
         { label: "Early Deliveries", value: "45", percentage: "37.5%", change: "+8" },
       ],
+      stats: [
+        { label: "Success Rate", value: "98.3%", change: "+1.8%", trend: "up" as const },
+        { label: "On-Time", value: "118", change: "+5", trend: "up" as const },
+        { label: "Delayed", value: "2", change: "-1", trend: "up" as const },
+      ]
     }
   };
 
@@ -611,90 +631,24 @@ function MetricDetailModal({ metric, onClose }: MetricDetailModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col border border-slate-700">
-        {/* Header */}
-        <div className="p-6 border-b border-slate-700 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-slate-700 rounded-xl flex items-center justify-center text-white">
-              {data.icon}
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-white">{data.title}</h2>
-              <p className="text-3xl font-bold text-white mt-1">{data.current}</p>
-            </div>
-          </div>
-          <button 
-            onClick={onClose}
-            className="w-10 h-10 rounded-lg hover:bg-slate-700 flex items-center justify-center transition text-slate-400 hover:text-white"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Content - Scrollable */}
-        <div className="p-6 space-y-6 overflow-y-auto flex-1">
-          {/* Chart */}
-          <div>
-            <h3 className="text-lg font-bold text-white mb-4">6-Month Trend</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={data.data}>
-                <defs>
-                  <linearGradient id={`color${metric}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={
-                      data.color === 'blue' ? '#3b82f6' :
-                      data.color === 'green' ? '#10b981' :
-                      data.color === 'purple' ? '#a855f7' :
-                      '#f59e0b'
-                    } stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor={
-                      data.color === 'blue' ? '#3b82f6' :
-                      data.color === 'green' ? '#10b981' :
-                      data.color === 'purple' ? '#a855f7' :
-                      '#f59e0b'
-                    } stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
-                <XAxis dataKey="month" stroke="#94a3b8" style={{ fontSize: "12px" }} />
-                <YAxis stroke="#94a3b8" style={{ fontSize: "12px" }} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px', color: '#fff' }}
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="value" 
-                  stroke={
-                    data.color === 'blue' ? '#3b82f6' :
-                    data.color === 'green' ? '#10b981' :
-                    data.color === 'purple' ? '#a855f7' :
-                    '#f59e0b'
-                  }
-                  strokeWidth={2} 
-                  fill={`url(#color${metric})`} 
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Breakdown */}
-          <div>
-            <h3 className="text-lg font-bold text-white mb-4">Breakdown</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {data.breakdown.map((item) => (
-                <div key={item.label} className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-                  <div className="text-sm text-slate-300 mb-1">{item.label}</div>
-                  <div className="text-2xl font-bold text-white mb-1">{item.value}</div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-400">{item.percentage}</span>
-                    <span className={`text-xs font-semibold ${item.change.startsWith('+') ? 'text-green-400' : item.change.startsWith('-') ? 'text-red-400' : 'text-slate-400'}`}>
-                      {item.change}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden border border-slate-700">
+        <button 
+          onClick={onClose}
+          className="absolute top-6 right-6 w-10 h-10 rounded-lg hover:bg-slate-700 flex items-center justify-center transition text-slate-400 hover:text-white z-10"
+        >
+          <X className="w-6 h-6" />
+        </button>
+        <TradingChart
+          title={data.title}
+          subtitle={data.subtitle}
+          data={data.data}
+          dataKey="value"
+          color={data.color}
+          icon={data.icon}
+          breakdown={data.breakdown}
+          stats={data.stats}
+          height={300}
+        />
       </div>
     </div>
   );

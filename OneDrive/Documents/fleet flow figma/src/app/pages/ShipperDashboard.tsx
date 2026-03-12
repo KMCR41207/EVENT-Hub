@@ -437,9 +437,9 @@ function TradingMetricModal({ metric, onClose }: MetricDetailModalProps) {
   const detailData = {
     shipments: {
       title: "Active Shipments",
+      subtitle: "Shipment tracking overview",
       icon: <Truck className="w-8 h-8" />,
       color: "blue",
-      current: "2",
       data: [
         { month: "Jan", value: 8 },
         { month: "Feb", value: 12 },
@@ -453,12 +453,17 @@ function TradingMetricModal({ metric, onClose }: MetricDetailModalProps) {
         { label: "Assigned", value: "1", percentage: "50%", change: "0" },
         { label: "Delayed", value: "0", percentage: "0%", change: "0" },
       ],
+      stats: [
+        { label: "Active", value: "2", change: "+1", trend: "up" as const },
+        { label: "Avg Time", value: "2.5h", change: "-0.5h", trend: "up" as const },
+        { label: "Success", value: "100%", change: "0%", trend: "up" as const },
+      ]
     },
     pending: {
       title: "Pending Loads",
+      subtitle: "Awaiting fleet assignment",
       icon: <Clock className="w-8 h-8" />,
       color: "orange",
-      current: "2",
       data: [
         { month: "Jan", value: 5 },
         { month: "Feb", value: 3 },
@@ -472,12 +477,17 @@ function TradingMetricModal({ metric, onClose }: MetricDetailModalProps) {
         { label: "Under Review", value: "0", percentage: "0%", change: "0" },
         { label: "Cancelled", value: "0", percentage: "0%", change: "0" },
       ],
+      stats: [
+        { label: "Pending", value: "2", change: "+2", trend: "up" as const },
+        { label: "Avg Wait", value: "4.2h", change: "+1.2h", trend: "down" as const },
+        { label: "Response Rate", value: "85%", change: "+5%", trend: "up" as const },
+      ]
     },
     revenue: {
       title: "Monthly Revenue",
+      subtitle: "Revenue by distance category",
       icon: <DollarSign className="w-8 h-8" />,
       color: "green",
-      current: "$12,450",
       data: [
         { month: "Jan", value: 8500 },
         { month: "Feb", value: 9200 },
@@ -491,12 +501,17 @@ function TradingMetricModal({ metric, onClose }: MetricDetailModalProps) {
         { label: "Regional (100-500mi)", value: "$3,210", percentage: "25.8%", change: "+$450" },
         { label: "Local (<100mi)", value: "$1,440", percentage: "11.6%", change: "+$180" },
       ],
+      stats: [
+        { label: "Total", value: "$12,450", change: "+$950", trend: "up" as const },
+        { label: "Avg Load", value: "$1,245", change: "+$95", trend: "up" as const },
+        { label: "Growth", value: "+46.4%", change: "+8.2%", trend: "up" as const },
+      ]
     },
     success: {
       title: "Success Rate",
+      subtitle: "On-time delivery performance",
       icon: <TrendingUp className="w-8 h-8" />,
       color: "purple",
-      current: "99.2%",
       data: [
         { month: "Jan", value: 97.5 },
         { month: "Feb", value: 98.2 },
@@ -510,6 +525,11 @@ function TradingMetricModal({ metric, onClose }: MetricDetailModalProps) {
         { label: "Delayed", value: "1", percentage: "0.8%", change: "-2" },
         { label: "Issues Resolved", value: "100%", percentage: "100%", change: "0" },
       ],
+      stats: [
+        { label: "Success Rate", value: "99.2%", change: "+1.7%", trend: "up" as const },
+        { label: "On-Time", value: "124", change: "+8", trend: "up" as const },
+        { label: "Delayed", value: "1", change: "-2", trend: "up" as const },
+      ]
     }
   };
 
@@ -517,90 +537,24 @@ function TradingMetricModal({ metric, onClose }: MetricDetailModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col border border-slate-700">
-        {/* Header */}
-        <div className="p-6 border-b border-slate-700 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-slate-700 rounded-xl flex items-center justify-center text-white">
-              {data.icon}
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-white">{data.title}</h2>
-              <p className="text-3xl font-bold text-white mt-1">{data.current}</p>
-            </div>
-          </div>
-          <button 
-            onClick={onClose}
-            className="w-10 h-10 rounded-lg hover:bg-slate-700 flex items-center justify-center transition text-slate-400 hover:text-white"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Content - Scrollable */}
-        <div className="p-6 space-y-6 overflow-y-auto flex-1">
-          {/* Chart */}
-          <div>
-            <h3 className="text-lg font-bold text-white mb-4">6-Month Trend</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={data.data}>
-                <defs>
-                  <linearGradient id={`color${metric}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={
-                      data.color === 'blue' ? '#3b82f6' :
-                      data.color === 'green' ? '#10b981' :
-                      data.color === 'purple' ? '#a855f7' :
-                      '#f59e0b'
-                    } stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor={
-                      data.color === 'blue' ? '#3b82f6' :
-                      data.color === 'green' ? '#10b981' :
-                      data.color === 'purple' ? '#a855f7' :
-                      '#f59e0b'
-                    } stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
-                <XAxis dataKey="month" stroke="#94a3b8" style={{ fontSize: "12px" }} />
-                <YAxis stroke="#94a3b8" style={{ fontSize: "12px" }} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px', color: '#fff' }}
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="value" 
-                  stroke={
-                    data.color === 'blue' ? '#3b82f6' :
-                    data.color === 'green' ? '#10b981' :
-                    data.color === 'purple' ? '#a855f7' :
-                    '#f59e0b'
-                  }
-                  strokeWidth={2} 
-                  fill={`url(#color${metric})`} 
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Breakdown */}
-          <div>
-            <h3 className="text-lg font-bold text-white mb-4">Breakdown</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {data.breakdown.map((item) => (
-                <div key={item.label} className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-                  <div className="text-sm text-slate-300 mb-1">{item.label}</div>
-                  <div className="text-2xl font-bold text-white mb-1">{item.value}</div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-400">{item.percentage}</span>
-                    <span className={`text-xs font-semibold ${item.change.startsWith('+') ? 'text-green-400' : item.change.startsWith('-') ? 'text-red-400' : 'text-slate-400'}`}>
-                      {item.change}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden border border-slate-700">
+        <button 
+          onClick={onClose}
+          className="absolute top-6 right-6 w-10 h-10 rounded-lg hover:bg-slate-700 flex items-center justify-center transition text-slate-400 hover:text-white z-10"
+        >
+          <X className="w-6 h-6" />
+        </button>
+        <TradingChart
+          title={data.title}
+          subtitle={data.subtitle}
+          data={data.data}
+          dataKey="value"
+          color={data.color}
+          icon={data.icon}
+          breakdown={data.breakdown}
+          stats={data.stats}
+          height={300}
+        />
       </div>
     </div>
   );
