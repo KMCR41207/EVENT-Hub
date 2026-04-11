@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student Portal – EventHub</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.auth-wrap{min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem}
+.auth-card{background:var(--card);border:1px solid var(--card-border);border-radius:1.5rem;padding:2.5rem 2rem;width:100%;max-width:400px;box-shadow:0 8px 40px rgba(0,0,0,.3)}
+.auth-logo{width:3.5rem;height:3.5rem;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-family:var(--font-display);font-weight:800;font-size:1.25rem;color:#fff}
+.auth-title{font-family:var(--font-display);font-weight:800;font-size:1.3rem;text-align:center;margin-bottom:.25rem}
+.auth-sub{font-size:.82rem;color:var(--muted-fg);text-align:center;margin-bottom:1.75rem}
+.auth-input{width:100%;background:rgba(255,255,255,.05);border:1.5px solid var(--card-border);border-radius:.75rem;padding:.85rem 1rem;font-size:.9rem;color:var(--fg);outline:none;transition:border .2s;box-sizing:border-box}
+.auth-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.auth-btn{width:100%;background:linear-gradient(135deg,var(--primary),#8b5cf6);color:#fff;border:none;border-radius:.75rem;padding:.9rem;font-size:.9rem;font-weight:700;cursor:pointer;font-family:var(--font-display);transition:opacity .2s;margin-top:.75rem}
+.auth-btn:hover{opacity:.88}.auth-btn:disabled{opacity:.5;cursor:not-allowed}
+.auth-err{color:#f87171;font-size:.78rem;text-align:center;margin-top:.5rem;font-weight:600}
+.auth-ok{color:#4ade80;font-size:.82rem;text-align:center;margin-top:.5rem}
+:root.light .auth-card{background:#fff;border-color:#e0e7ff}
+:root.light .auth-input{background:#f8faff;border-color:#c7d2fe;color:#1e293b}
+.portal-wrap{max-width:900px;margin:0 auto;padding:7rem 1rem 6rem}
+.portal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.portal-user{display:flex;align-items:center;gap:.75rem}
+.portal-avatar{width:2.75rem;height:2.75rem;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#fff;flex-shrink:0}
+.portal-name{font-family:var(--font-display);font-weight:700;font-size:1rem}
+.portal-email{font-size:.75rem;color:var(--muted-fg)}
+.logout-btn{background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.3);color:#f87171;border-radius:.6rem;padding:.4rem .9rem;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s}
+.logout-btn:hover{background:rgba(244,63,94,.25)}
+.ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-top:1.5rem}
+.ev-item{background:var(--card);border:1px solid var(--card-border);border-radius:1rem;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.ev-item:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.ev-img{height:9rem;background-size:cover;background-position:center;background-color:rgba(99,102,241,.15)}
+.ev-body{padding:1rem}
+.ev-title{font-family:var(--font-display);font-weight:700;font-size:.95rem;margin-bottom:.3rem}
+.ev-meta{font-size:.75rem;color:var(--muted-fg);margin-bottom:.85rem}
+.ev-status{display:inline-block;font-size:.65rem;font-weight:700;padding:.15rem .55rem;border-radius:999px;margin-bottom:.6rem}
+.status-upcoming{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.3)}
+.status-ongoing{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
+.status-completed{background:rgba(148,163,184,.15);color:#94a3b8;border:1px solid rgba(148,163,184,.3)}
+.qr-btn{width:100%;background:linear-gradient(135deg,var(--primary),#8b5cf6);color:#fff;border:none;border-radius:.65rem;padding:.65rem;font-size:.8rem;font-weight:700;cursor:pointer;font-family:var(--font-display);transition:opacity .2s}
+.qr-btn:hover{opacity:.85}
+:root.light .ev-item{background:#fff;border-color:#e0e7ff}
+:root.light .ev-title{color:#1a3fcc}
+.qr-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:300;display:flex;align-items:center;justify-content:center;padding:1rem}
+.qr-modal-bg.hidden{display:none}
+.qr-modal{background:var(--card);border:1px solid var(--card-border);border-radius:1.5rem;padding:2rem;max-width:340px;width:100%;text-align:center}
+.qr-modal-title{font-family:var(--font-display);font-weight:800;font-size:1rem;margin-bottom:.25rem}
+.qr-modal-sub{font-size:.78rem;color:var(--muted-fg);margin-bottom:1.25rem}
+#qr-canvas{margin:0 auto 1rem;border-radius:.75rem;background:#fff;padding:.75rem;display:inline-block}
+.qr-close{background:rgba(255,255,255,.08);border:1px solid var(--card-border);color:var(--muted-fg);border-radius:.6rem;padding:.5rem 1.25rem;font-size:.82rem;cursor:pointer;transition:all .2s}
+.qr-close:hover{background:rgba(255,255,255,.15);color:#fff}
+:root.light .qr-modal{background:#fff;border-color:#e0e7ff}
+:root.light .qr-close{background:#f1f5f9;color:#475569}
+.section-title{font-family:var(--font-display);font-weight:800;font-size:1.2rem;margin-bottom:.25rem}
+.section-sub{font-size:.82rem;color:var(--muted-fg);margin-bottom:1.25rem}
+.empty-msg{text-align:center;padding:3rem 1rem;color:var(--muted-fg);font-size:.9rem}
+.loading-msg{text-align:center;padding:2rem;color:var(--muted-fg);font-size:.85rem}
+</style>
+</head>
+<body>
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">C</div><span class="logo-text">Event<span>Hub</span></span></a>
+    <nav class="nav-links nav-rainbow">
+      <a href="events.html">Discover</a><a href="clubs.html">Clubs</a>
+      <a href="student.html" class="active">Student Portal</a><a href="organizer.html">Organizer</a>
+    </nav>
+    <div class="nav-cta-group">
+      <button class="back-btn" onclick="history.back()">← Back</button>
+      <a href="events.html" class="btn btn-primary nav-cta">Explore Events</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="events.html">Discover</a><a href="clubs.html">Clubs</a>
+    <a href="student.html">Student Portal</a><a href="organizer.html">Organizer</a>
+  </div>
+</header>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen" class="auth-wrap" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">C</div>
+    <div class="auth-title" id="auth-title">Student Login</div>
+    <div class="auth-sub" id="auth-sub">Use your MLRIT college email</div>
+
+    <!-- Tab switcher -->
+    <div style="display:flex;background:rgba(255,255,255,.06);border-radius:.65rem;padding:.25rem;gap:.25rem;margin-bottom:1.5rem">
+      <button id="tab-login" onclick="switchTab('login')" style="flex:1;padding:.55rem;border:none;border-radius:.5rem;font-size:.8rem;font-weight:700;cursor:pointer;background:var(--primary);color:#fff;font-family:var(--font-display);transition:all .2s">Login</button>
+      <button id="tab-register" onclick="switchTab('register')" style="flex:1;padding:.55rem;border:none;border-radius:.5rem;font-size:.8rem;font-weight:700;cursor:pointer;background:none;color:var(--muted-fg);font-family:var(--font-display);transition:all .2s">Register</button>
+    </div>
+
+    <input type="email" id="auth-email" class="auth-input" placeholder="yourname@mlrit.ac.in" style="margin-bottom:.75rem">
+    <input type="password" id="auth-password" class="auth-input" placeholder="Password (min 6 chars)" style="margin-bottom:.75rem">
+    <input type="text" id="auth-name" class="auth-input" placeholder="Full Name" style="display:none;margin-bottom:.75rem">
+
+    <div class="auth-err" id="auth-err" style="display:none"></div>
+    <button class="auth-btn" id="auth-submit-btn" onclick="submitAuth()">Login</button>
+    <p style="font-size:.72rem;color:var(--muted-fg);text-align:center;margin-top:.75rem" id="auth-hint">Only @mlrit.ac.in emails allowed</p>
+  </div>
+</div>
+
+<!-- PORTAL SCREEN -->
+<div id="portal-screen" style="display:none">
+  <div class="portal-wrap">
+    <div class="portal-header">
+      <div class="portal-user">
+        <div class="portal-avatar" id="portal-avatar">S</div>
+        <div>
+          <div class="portal-name" id="portal-name">Student</div>
+          <div class="portal-email" id="portal-email"></div>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+    <div class="section-title">Upcoming Events</div>
+    <div class="section-sub">Click "Show QR" to get your attendance QR code</div>
+    <div id="events-loading" class="loading-msg">Loading events...</div>
+    <div class="ev-grid" id="events-grid" style="display:none"></div>
+    <div id="events-empty" class="empty-msg" style="display:none">No events available yet.</div>
+    <div style="margin-top:3rem">
+      <div class="section-title">My Registrations</div>
+      <div class="section-sub">Events you've generated a QR for</div>
+      <div id="regs-loading" class="loading-msg">Loading...</div>
+      <div id="regs-list" style="display:none"></div>
+      <div id="regs-empty" class="empty-msg" style="display:none">No registrations yet.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QR MODAL -->
+<div class="qr-modal-bg hidden" id="qr-modal-bg" onclick="closeQR(event)">
+  <div class="qr-modal">
+    <div class="qr-modal-title" id="qr-event-title">Event QR Code</div>
+    <div class="qr-modal-sub">Show this at the event entrance for check-in</div>
+    <div id="qr-canvas"></div>
+    <button class="qr-close" onclick="document.getElementById('qr-modal-bg').classList.add('hidden')">Close</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><div class="footer-logo-icon">C</div><span class="font-display font-bold">EventHub</span></div>
+    <p class="footer-copy">Made for campus life. Built with passion.</p>
+    <div class="footer-links"><a href="events.html">Events</a><a href="clubs.html">Clubs</a><a href="student.html">Students</a></div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="supabase-client.js"></script>
+<script src="app.js"></script>
+<script>
+const ALLOWED_DOMAIN = '@mlrit.ac.in';
+let currentUser = null;
+let authMode = 'login';
+
+function switchTab(mode) {
+  authMode = mode;
+  const isLogin = mode === 'login';
+  document.getElementById('tab-login').style.background = isLogin ? 'var(--primary)' : 'none';
+  document.getElementById('tab-login').style.color = isLogin ? '#fff' : 'var(--muted-fg)';
+  document.getElementById('tab-register').style.background = !isLogin ? 'var(--primary)' : 'none';
+  document.getElementById('tab-register').style.color = !isLogin ? '#fff' : 'var(--muted-fg)';
+  document.getElementById('auth-name').style.display = isLogin ? 'none' : 'block';
+  document.getElementById('auth-submit-btn').textContent = isLogin ? 'Login' : 'Register';
+  document.getElementById('auth-title').textContent = isLogin ? 'Student Login' : 'Student Register';
+  document.getElementById('auth-err').style.display = 'none';
+}
+
+async function submitAuth() {
+  const email = document.getElementById('auth-email').value.trim().toLowerCase();
+  const password = document.getElementById('auth-password').value;
+  const name = document.getElementById('auth-name').value.trim();
+  document.getElementById('auth-err').style.display = 'none';
+
+  if (!email) { showErr('Please enter your email.'); return; }
+  if (!email.endsWith(ALLOWED_DOMAIN)) { showErr('Only @mlrit.ac.in emails are allowed.'); return; }
+  if (!password || password.length < 6) { showErr('Password must be at least 6 characters.'); return; }
+  if (authMode === 'register' && !name) { showErr('Please enter your full name.'); return; }
+
+  const btn = document.getElementById('auth-submit-btn');
+  btn.textContent = authMode === 'login' ? 'Logging in...' : 'Registering...';
+  btn.disabled = true;
+
+  let data, error;
+
+  if (authMode === 'login') {
+    ({ data, error } = await sb.auth.signInWithPassword({ email, password }));
+    if (error) { showErr(error.message); btn.textContent = 'Login'; btn.disabled = false; return; }
+  } else {
+    ({ data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name: name } } }));
+    if (error) { showErr(error.message); btn.textContent = 'Register'; btn.disabled = false; return; }
+    // Auto login after register
+    if (data?.user && !data.session) {
+      // Email confirmation still on — sign in manually
+      const res = await sb.auth.signInWithPassword({ email, password });
+      data = res.data; error = res.error;
+      if (error) { showErr('Registered! Please login now.'); switchTab('login'); btn.textContent = 'Register'; btn.disabled = false; return; }
+    }
+  }
+
+  btn.textContent = authMode === 'login' ? 'Login' : 'Register';
+  btn.disabled = false;
+
+  if (data?.user) {
+    await showPortal(data.user);
+  } else {
+    showErr('Something went wrong. Please try again.');
+  }
+}
+
+function showErr(msg) { const el = document.getElementById('auth-err'); el.textContent = msg; el.style.display = 'block'; }
+
+function resetAuth() {
+  document.getElementById('auth-email').value = '';
+  document.getElementById('auth-password').value = '';
+  document.getElementById('auth-name').value = '';
+  document.getElementById('auth-err').style.display = 'none';
+}
+
+async function logout() {
+  const btn = document.querySelector('.logout-btn');
+  if (btn) { btn.textContent = 'Signing out...'; btn.disabled = true; }
+  try { await sb.auth.signOut(); } catch(e) {}
+  currentUser = null;
+  document.getElementById('portal-screen').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  resetAuth();
+  switchTab('login');
+  if (btn) { btn.textContent = 'Sign Out'; btn.disabled = false; }
+}
+
+async function showPortal(user) {
+  if (currentUser && currentUser.id === user.id) return;
+  currentUser = user;
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('portal-screen').style.display = 'block';
+  const email = user.email || '';
+  const name = email.split('@')[0];
+  document.getElementById('portal-name').textContent = name;
+  document.getElementById('portal-email').textContent = email;
+  document.getElementById('portal-avatar').textContent = (name[0] || 'S').toUpperCase();
+  sb.from('students').upsert({ id: user.id, email }, { onConflict: 'id' }).then(() => {});
+  loadEvents(user);
+  loadRegistrations(user);
+}
+
+async function loadEvents(user) {
+  try {
+    const { data, error } = await sb.from('events').select('*').order('date', { ascending: true });
+    document.getElementById('events-loading').style.display = 'none';
+    if (error) { document.getElementById('events-empty').textContent = '⚠️ ' + error.message; document.getElementById('events-empty').style.display = 'block'; return; }
+    if (!data || !data.length) { document.getElementById('events-empty').style.display = 'block'; return; }
+    const grid = document.getElementById('events-grid');
+    grid.style.display = ''; grid.innerHTML = '';
+    data.forEach(ev => {
+      const d = new Date(ev.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+      const safeTitle = (ev.title || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      const card = document.createElement('div');
+      card.className = 'ev-item';
+      card.innerHTML = `<div class="ev-img" style="background-image:url('${ev.image_url || ''}')"></div>
+        <div class="ev-body">
+          <span class="ev-status status-${ev.status || 'upcoming'}">${ev.status || 'upcoming'}</span>
+          <div class="ev-title">${ev.title || ''}</div>
+          <div class="ev-meta">📅 ${d} · ${ev.category || ''}</div>
+          <button class="qr-btn" onclick="showQR('${ev.id}','${safeTitle}','${user.id}')">🎫 Show QR Code</button>
+        </div>`;
+      grid.appendChild(card);
+    });
+  } catch(e) {
+    document.getElementById('events-loading').style.display = 'none';
+    document.getElementById('events-empty').textContent = '⚠️ ' + e.message;
+    document.getElementById('events-empty').style.display = 'block';
+  }
+}
+
+async function loadRegistrations(user) {
+  try {
+    const { data, error } = await sb.from('registrations').select('attended,event_id,events(title,date)').eq('student_id', user.id).order('created_at', { ascending: false });
+    document.getElementById('regs-loading').style.display = 'none';
+    if (error) { document.getElementById('regs-empty').textContent = '⚠️ ' + error.message; document.getElementById('regs-empty').style.display = 'block'; return; }
+    if (!data || !data.length) { document.getElementById('regs-empty').style.display = 'block'; return; }
+    const list = document.getElementById('regs-list');
+    list.style.display = 'block';
+    list.innerHTML = data.map(r => {
+      const d = r.events ? new Date(r.events.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
+      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--card);border:1px solid var(--card-border);border-radius:.75rem;margin-bottom:.5rem">
+        <div><div style="font-weight:600;font-size:.875rem">${r.events?.title || 'Event'}</div><div style="font-size:.72rem;color:var(--muted-fg)">${d}</div></div>
+        <span style="font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:999px;background:${r.attended ? 'rgba(74,222,128,.15)' : 'rgba(99,102,241,.15)'};color:${r.attended ? '#4ade80' : '#818cf8'};border:1px solid currentColor">${r.attended ? '✅ Attended' : '⏳ Registered'}</span>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    document.getElementById('regs-loading').style.display = 'none';
+    document.getElementById('regs-empty').textContent = '⚠️ ' + e.message;
+    document.getElementById('regs-empty').style.display = 'block';
+  }
+}
+
+async function showQR(eventId, eventTitle, userId) {
+  await sb.from('registrations').upsert({ student_id: userId, event_id: eventId, attended: false }, { onConflict: 'student_id,event_id', ignoreDuplicates: true });
+  document.getElementById('qr-event-title').textContent = eventTitle;
+  document.getElementById('qr-modal-bg').classList.remove('hidden');
+  const container = document.getElementById('qr-canvas');
+  container.innerHTML = '';
+  new QRCode(container, { text: JSON.stringify({ event_id: eventId, student_id: userId }), width: 220, height: 220, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.M });
+  if (currentUser) loadRegistrations(currentUser);
+}
+
+function closeQR(e) { if (e.target === document.getElementById('qr-modal-bg')) document.getElementById('qr-modal-bg').classList.add('hidden'); }
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session && session.user) { await showPortal(session.user); }
+  else { document.getElementById('auth-screen').style.display = 'flex'; }
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session && session.user && !currentUser) { await showPortal(session.user); }
+  });
+});
+</script>
+<script src="click-spark.js"></script>
+</body>
+</html>

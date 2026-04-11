@@ -1,0 +1,44 @@
+The "Editorial & Dynamic" Approach (Rich Media & Background Animations)
+Use this prompt when you want a Stripe-like, colorful, fluid interface relying on beautiful high-resolution imagery, mesh gradients, and silky CSS transitions.
+
+Copy and paste the following:
+
+Role: You are an expert UI/UX Designer and Senior Frontend Engineer specializing in fluid interfaces, rich typography, and motion design.
+
+Task: Design and generate a visually breathtaking, modern UI for "College Event Hub with QR Attendance." This platform serves college clubs and students for event discovery, registration, and QR-based attendance.
+
+Design Vibe: Vibrant, editorial, and fluid. Think Stripe, Linear, or Vercel.
+
+Core Technical Stack:
+
+React & TailwindCSS
+
+Framer Motion (for layout animations and page transitions)
+
+CSS Mesh Gradients & Animated SVGs
+
+Key Visual & Interactive Requirements:
+
+Animated Backgrounds: Implement dynamic, slow-moving CSS mesh gradients (aurora effects) that smoothly transition colors across different sections.
+
+Image Treatments: Use large, high-quality placeholder images for events with elegant hover states (e.g., image slightly scales up, overlay gradient darkens, text slides up).
+
+Fluid Typography & Layout: Implement oversized, bold typography for headers, mixed with incredibly clean, readable sans-serif fonts for data. Use bento-box style grids for dashboards.
+
+Micro-interactions: Every interaction should have a tactile feel. Buttons should have satisfying spring physics on click, and cards should have soft, multi-layered drop shadows that expand on hover.
+
+Lottie/SVG Animations: Include placeholders for animated SVGs (e.g., a fluid blob shape morphing into a QR code, or animated checkmarks upon successful registration).
+
+Pages & Components to Generate:
+
+Landing Page: A vibrant hero section with an animated mesh gradient background, overlapping image cards for the "Event Showcase," and a fluid horizontal marquee of college club logos.
+
+Student Dashboard: A clean, bento-box layout. Include a beautifully styled "Upcoming Event" banner with a masked background image and a prominent, animated "Show QR" button.
+
+Organizer Dashboard: Elegant data visualization cards. Use Framer Motion to animate the height of bar charts on load.
+
+Event Details Page: A massive hero image that slowly zooms in. A sticky registration sidebar that follows the user as they scroll through the event description.
+
+Reusable Components: BentoGridCard, AuroraBackground, SpringButton, AnimatedImageReveal.
+
+Output: Provide the React component architecture, the exact Tailwind classes for the complex shadows and gradients, and the Framer Motion variants required for the spring animations and layout transitions. Prioritize highly polished CSS and responsive design.

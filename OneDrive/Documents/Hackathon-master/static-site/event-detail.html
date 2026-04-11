@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Event Detail – EventHub</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.detail-hero{position:relative;height:55vh;overflow:hidden}
+.detail-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(10,10,26,.5) 50%,transparent 100%)}
+.detail-hero-overlay2{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,26,.3),transparent)}
+.detail-hero-content{position:absolute;bottom:2rem;left:1rem;right:1rem;max-width:1280px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.875rem;color:rgba(255,255,255,.7);margin-bottom:1rem;transition:color .2s}
+.back-link:hover{color:#fff}
+.detail-grid{display:grid;grid-template-columns:1fr 340px;gap:2rem;margin-top:2rem}
+.info-chip{display:inline-flex;align-items:center;gap:.5rem;font-size:.875rem;padding:.5rem 1rem;border-radius:.75rem;background:rgba(255,255,255,.03);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.05)}
+.success-box{text-align:center;padding:1rem 0}
+.success-icon{width:4rem;height:4rem;border-radius:9999px;background:rgba(74,222,128,.2);border:1px solid rgba(74,222,128,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+@media(max-width:900px){.detail-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">C</div><span class="logo-text">Event<span>Hub</span></span></a>
+    <nav class="nav-links">
+      <a href="events.html">Discover</a><a href="clubs.html">Clubs</a>
+      <a href="student.html">Student Portal</a><a href="organizer.html">Organizer</a>
+    </nav>
+    <div class="nav-cta-group">
+      <button class="back-btn" onclick="history.back()">← Back</button>
+      <a href="events.html" class="btn btn-primary nav-cta">Explore Events</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="events.html">Discover</a><a href="clubs.html">Clubs</a>
+    <a href="student.html">Student Portal</a><a href="organizer.html">Organizer</a>
+  </div>
+</header>
+
+<div class="detail-hero" id="detail-hero">
+  <div class="detail-hero-bg ken-burns" id="hero-bg"></div>
+  <div class="detail-hero-overlay"></div>
+  <div class="detail-hero-overlay2"></div>
+  <div class="detail-hero-content">
+    <a href="events.html" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to Events
+    </a>
+    <span class="cat-badge" id="event-cat-badge" style="display:inline-block;margin-bottom:.75rem"></span>
+    <h1 id="event-title" style="font-family:var(--font-display);font-weight:800;font-size:clamp(2rem,5vw,3.5rem);max-width:48rem;line-height:1.1"></h1>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:6rem">
+  <div class="detail-grid">
+    <!-- Main content -->
+    <div class="fade-in">
+      <div class="flex gap-3" style="flex-wrap:wrap;margin-bottom:2rem;margin-top:0">
+        <div class="info-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="event-date-chip"></span></div>
+        <div class="info-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="var(--secondary)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span id="event-loc-chip"></span></div>
+        <div class="info-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span id="event-reg-chip"></span></div>
+      </div>
+
+      <div id="event-club-row" style="display:flex;align-items:center;gap:.75rem;margin-bottom:2rem"></div>
+
+      <div class="glass-panel rounded-2xl p-6 mb-6">
+        <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.25rem;margin-bottom:1rem">About this event</h2>
+        <p id="event-desc" style="color:var(--muted-fg);line-height:1.7"></p>
+      </div>
+
+      <div class="glass-panel rounded-2xl p-6">
+        <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.25rem;margin-bottom:1rem">Capacity</h2>
+        <div class="capacity-row mb-3" id="cap-row"></div>
+        <div class="progress-bar"><div class="progress-fill" id="cap-fill" data-width="0" style="width:0"></div></div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div style="position:sticky;top:6rem;align-self:start" class="fade-in-1">
+      <div class="glass-panel rounded-2xl p-6" style="border:1px solid rgba(99,102,241,.2)">
+        <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.25rem;margin-bottom:1.5rem">Register for this event</h2>
+        <div id="register-form-wrap">
+          <form id="register-form">
+            <div style="margin-bottom:1rem">
+              <label class="form-label">Full Name</label>
+              <input type="text" required class="form-input" id="reg-name" placeholder="Your full name">
+            </div>
+            <div style="margin-bottom:1.5rem">
+              <label class="form-label">Email Address</label>
+              <input type="email" required class="form-input" id="reg-email" placeholder="your@email.com">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Register Now</button>
+          </form>
+        </div>
+        <div id="register-success" style="display:none" class="success-box">
+          <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3 style="font-family:var(--font-display);font-weight:700;font-size:1.125rem;margin-bottom:.5rem">You're registered!</h3>
+          <p style="color:var(--muted-fg);font-size:.875rem;margin-bottom:1rem">Your QR code is ready in your Student Portal.</p>
+          <a href="student.html" class="btn btn-primary" style="width:100%;justify-content:center">View My QR Code</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><div class="footer-logo-icon">C</div><span class="font-display font-bold">EventHub</span></div>
+    <p class="footer-copy">Made for campus life. Built with passion.</p>
+    <div class="footer-links"><a href="events.html">Events</a><a href="clubs.html">Clubs</a><a href="student.html">Students</a></div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+const events = [
+  {id:1,title:"Annual Hackathon 2025",club:"Coding Club",desc:"48-hour coding marathon. Build something amazing with your team. Prizes worth $5000 up for grabs. Food and refreshments provided throughout.",date:"Apr 20, 2025",time:"9:00 AM",loc:"Tech Block A",cat:"Technology",img:"../artifacts/college-event-hub/public/events/hackathon.png",reg:45,cap:100},
+  {id:2,title:"Music Fest Spring",club:"Harmony Music",desc:"Live performances from campus bands and solo artists. An evening of music, lights, and unforgettable moments.",date:"Apr 25, 2025",time:"6:00 PM",loc:"Open Air Stage",cat:"Arts",img:"../artifacts/college-event-hub/public/events/music-fest.png",reg:180,cap:200},
+  {id:3,title:"Tech Conference",club:"Tech Innovators",desc:"Industry speakers, workshops, and networking sessions. Learn from professionals and connect with peers.",date:"May 2, 2025",time:"10:00 AM",loc:"Auditorium",cat:"Technology",img:"../artifacts/college-event-hub/public/events/tech-conference.png",reg:60,cap:150},
+  {id:4,title:"Art Exhibition",club:"Canvas Collective",desc:"Showcasing student artwork across all mediums. Paintings, sculptures, digital art, and more.",date:"May 5, 2025",time:"11:00 AM",loc:"Gallery Hall",cat:"Arts",img:"../artifacts/college-event-hub/public/events/art-exhibition.png",reg:30,cap:80},
+  {id:5,title:"Sports Day",club:"SportsFest",desc:"Inter-department sports competitions and fun games. Cricket, football, basketball, and athletics.",date:"May 10, 2025",time:"8:00 AM",loc:"Sports Ground",cat:"Sports",img:"../artifacts/college-event-hub/public/events/sports-day.png",reg:90,cap:120},
+  {id:6,title:"Cultural Night",club:"Cultural Fusion",desc:"A celebration of diverse cultures through dance, music, and food. Experience traditions from around the world.",date:"May 15, 2025",time:"7:00 PM",loc:"Main Hall",cat:"Culture",img:"../artifacts/college-event-hub/public/events/cultural-night.png",reg:110,cap:200},
+];
+const catClass = {Technology:'cat-tech',Arts:'cat-arts',Sports:'cat-sports',Culture:'cat-culture',Academic:'cat-academic'};
+const params = new URLSearchParams(location.search);
+const id = parseInt(params.get('id')) || 1;
+const e = events.find(x=>x.id===id) || events[0];
+const pct = Math.round((e.reg/e.cap)*100);
+
+document.title = e.title + ' – EventHub';
+document.getElementById('hero-bg').style.backgroundImage = `url('${e.img}')`;
+document.getElementById('event-title').textContent = e.title;
+const badge = document.getElementById('event-cat-badge');
+badge.textContent = e.cat; badge.className = 'cat-badge ' + (catClass[e.cat]||'');
+document.getElementById('event-date-chip').textContent = e.date + ' at ' + e.time;
+document.getElementById('event-loc-chip').textContent = e.loc;
+document.getElementById('event-reg-chip').textContent = e.reg + ' registered';
+document.getElementById('event-desc').textContent = e.desc;
+document.getElementById('event-club-row').innerHTML = `<div style="width:2.5rem;height:2.5rem;border-radius:9999px;background:linear-gradient(135deg,rgba(99,102,241,.4),rgba(236,72,153,.4));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.875rem">${e.club[0]}</div><div><p style="font-size:.75rem;color:var(--muted-fg)">Organized by</p><p style="font-weight:600">${e.club}</p></div>`;
+document.getElementById('cap-row').innerHTML = `<span style="color:var(--muted-fg)">${e.reg} of ${e.cap} registered</span><span style="color:${e.cap-e.reg<=20?'#f87171':'#4ade80'};font-weight:600">${e.cap-e.reg} spots remaining</span>`;
+const fill = document.getElementById('cap-fill');
+fill.dataset.width = pct; if(pct>=90) fill.classList.add('danger');
+setTimeout(()=>{fill.style.width=pct+'%'},300);
+
+document.getElementById('register-form').addEventListener('submit', function(ev) {
+  ev.preventDefault();
+  document.getElementById('register-form-wrap').style.display='none';
+  document.getElementById('register-success').style.display='block';
+});
+</script>
+<script src="click-spark.js"></script></body>
+</html>

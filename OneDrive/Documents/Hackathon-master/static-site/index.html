@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EventHub – College Event Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">C</div>
+      <span class="logo-text">Event<span>Hub</span></span>
+    </a>
+    <nav class="nav-links nav-rainbow">
+      <a href="events.html">Discover</a>
+      <a href="clubs.html">Clubs</a>
+      <a href="student.html">Student Portal</a>
+      <a href="organizer.html">Organizer</a>
+    </nav>
+    <div class="nav-cta-group">
+      <button class="back-btn" onclick="history.back()">← Back</button>
+      <a href="events.html" class="btn btn-primary nav-cta">Explore Events</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="events.html">Discover</a>
+    <a href="clubs.html">Clubs</a>
+    <a href="student.html">Student Portal</a>
+    <a href="organizer.html">Organizer</a>
+    <div style="padding:.75rem"><a href="events.html" class="btn btn-primary" style="width:100%;justify-content:center">Explore Events</a></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="aurora-bg"></div>
+  <div id="magic-rings-canvas" style="position:absolute;inset:0;z-index:0;"></div>
+  <div class="hero-content">
+    <div style="grid-column:1">
+    <div class="hero-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Your campus, amplified
+    </div>
+    <h1 class="hero-title">
+      <span style="display:block">Discover.</span>
+      <span class="gradient-text" style="display:block">Connect.</span>
+      <span style="display:block">Experience.</span>
+    </h1>
+    <p class="hero-sub">The hub for every campus event. Register instantly, get your QR pass, and make every moment count.</p>
+    <div class="hero-btns">
+      <a href="events.html" class="btn-fancy">
+        <span class="corner-tr"></span>
+        <span class="corner-bl"></span>
+        <span class="sweep"></span>
+        <span class="label">
+          Browse Events
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+      </a>
+      <a href="student.html" class="btn btn-outline">Student Portal</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="val">24</div><div class="lbl">Events</div></div>
+      <div class="stat-card"><div class="val">1.2k</div><div class="lbl">Registered</div></div>
+      <div class="stat-card"><div class="val">8</div><div class="lbl">Clubs</div></div>
+      <div class="stat-card"><div class="val">12</div><div class="lbl">Upcoming</div></div>
+    </div>
+    </div><!-- end col-1 -->
+
+    <!-- TV widget (light mode only) -->
+    <div class="hero-tv-wrap">
+      <div class="main_wrapper">
+        <div class="main">
+          <div class="antenna">
+            <div class="antenna_shadow"></div>
+            <div class="a1"></div><div class="a1d"></div>
+            <div class="a2"></div><div class="a2d"></div>
+            <div class="a_base"></div>
+          </div>
+          <div class="tv">
+            <div class="cruve">
+              <svg class="curve_svg" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 189.929 189.929" xml:space="preserve">
+                <path d="M70.343,70.343c-30.554,30.553-44.806,72.7-39.102,115.635l-29.738,3.951C-5.442,137.659,11.917,86.34,49.129,49.13C86.34,11.918,137.664-5.445,189.928,1.502l-3.95,29.738C143.041,25.54,100.895,39.789,70.343,70.343z"/>
+              </svg>
+            </div>
+            <div class="display_div">
+              <div class="screen_out">
+                <div class="screen_out1" style="overflow:hidden;border-radius:10px;position:relative;">
+                  <!-- Grid overlay removed -->
+                  <!-- Off state: "TURN ON" message -->
+                  <div id="tv-off-screen" style="width:11em;height:7.75em;border-radius:8px;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;position:absolute;inset:0;z-index:3;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#4ade80" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+                    <span style="color:#4ade80;font-size:.55em;font-weight:700;letter-spacing:.1em;font-family:monospace">TURN ON</span>
+                  </div>
+                  <!-- Video -->
+                  <video id="tv-video" loop muted playsinline
+                    style="width:11em;height:7.75em;object-fit:cover;border-radius:8px;display:block;opacity:0;transition:opacity .8s ease;">
+                    <source src="tv-clip.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+            <div class="lines">
+              <div class="line1"></div><div class="line2"></div><div class="line3"></div>
+            </div>
+            <div class="buttons_div">
+              <div class="b1"><div></div></div>
+              <div class="b2"></div>
+              <div class="speakers">
+                <div class="g1"><div class="g11"></div><div class="g12"></div><div class="g13"></div></div>
+                <div class="g"></div><div class="g"></div>
+              </div>
+              <!-- Power switch -->
+              <label id="tv-switch-label" title="Power" style="display:flex;align-items:center;cursor:pointer;margin-top:.25em;position:relative;z-index:100000;">
+                <input type="checkbox" id="tv-power" style="opacity:0;width:0;height:0;position:absolute;">
+                <div id="tv-switch-track" style="width:2.2em;height:1.1em;background:#333;border-radius:9999px;border:1.5px solid #111;position:relative;transition:background .3s;">
+                  <div id="tv-switch-thumb" style="position:absolute;top:2px;left:2px;width:.75em;height:.75em;background:#888;border-radius:50%;transition:transform .3s,background .3s;"></div>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="bottom">
+            <div class="base1"></div><div class="base2"></div><div class="base3"></div>
+          </div>
+        </div>
+        <div class="text_404">
+          <div class="text_4041">4</div>
+          <div class="text_4042">0</div>
+          <div class="text_4043">4</div>
+        </div>
+      </div>
+    </div><!-- end TV -->
+  </div>
+  <div class="scroll-indicator"><div class="scroll-dot"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<section class="marquee-section">
+  <div class="marquee-track" id="marquee-track"></div>
+</section>
+
+<!-- UPCOMING EVENTS -->
+<section style="padding:6rem 1rem">
+  <div class="container">
+    <div class="flex justify-between items-center mb-12 animate-on-scroll">
+      <div>
+        <p class="section-label">Happening Soon</p>
+        <h2 class="section-title">Upcoming Events</h2>
+      </div>
+      <a href="events.html" class="flex items-center gap-2 text-primary font-semibold" style="font-size:.875rem">
+        View all
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="grid grid-3 gap-6" id="events-grid">
+      <!-- Events loaded from Supabase -->
+    </div>
+    <div id="events-home-empty" style="display:none;text-align:center;padding:3rem;color:var(--muted-fg)">No events yet. Check back soon!</div>
+    <div id="events-home-loading" style="text-align:center;padding:3rem;color:var(--muted-fg)">Loading events...</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section style="padding:6rem 1rem;position:relative">
+  <div class="aurora-bg" style="opacity:.5"></div>
+  <div class="container" style="position:relative;z-index:10">
+    <div class="text-center mb-16 animate-on-scroll">
+      <h2 class="section-title mb-4">Everything you need</h2>
+      <p class="section-sub">A complete platform for students and organizers — discovery, registration, and attendance all in one place.</p>
+    </div>
+    <div class="grid grid-4 gap-6">
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon" style="color:var(--primary)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3 class="feature-title">Discover Events</h3>
+        <p class="feature-desc">Find the perfect events curated for your interests, from tech talks to cultural nights.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon" style="color:var(--secondary)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h3v3H7zm7 0h3v3h-3zm-7 7h3v3H7zm7 0h3v3h-3z"/></svg>
+        </div>
+        <h3 class="feature-title">QR Attendance</h3>
+        <p class="feature-desc">Instant check-in with personalized QR codes. No queues, no paperwork.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon" style="color:var(--accent)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 class="feature-title">Club Connect</h3>
+        <p class="feature-desc">Join clubs, follow their events, and build your campus community.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon" style="color:var(--primary)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <h3 class="feature-title">Real-Time Stats</h3>
+        <p class="feature-desc">Organizers track registrations and attendance with live dashboards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:6rem 1rem">
+  <div class="container" style="max-width:56rem">
+    <div class="cta-box animate-on-scroll">
+      <h2 class="section-title mb-4">Ready to dive in?</h2>
+      <p style="color:var(--muted-fg);font-size:1.125rem;margin-bottom:2rem">Join thousands of students who use EventHub to make the most of campus life.</p>
+      <div class="flex gap-4 justify-center" style="flex-wrap:wrap">
+        <a href="student.html" class="btn btn-primary">
+          Get Started
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="organizer.html" class="btn btn-outline">I'm an Organizer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="footer-logo-icon">C</div>
+      <span class="font-display font-bold">EventHub</span>
+    </div>
+    <p class="footer-copy">Made for campus life. Built with passion.</p>
+    <div class="footer-links">
+      <a href="events.html">Events</a>
+      <a href="clubs.html">Clubs</a>
+      <a href="student.html">Students</a>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script src="magic-rings.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script>
+// ── Load real events from Supabase ──
+(async function() {
+  const grid = document.getElementById('events-grid');
+  const loading = document.getElementById('events-home-loading');
+  const empty = document.getElementById('events-home-empty');
+  const catClass = { Hackathon:'cat-tech', Club:'cat-arts', Traditional:'cat-culture' };
+
+  try {
+    const { data: events, error } = await sb
+      .from('events')
+      .select('*')
+      .order('date', { ascending: true })
+      .limit(6);
+
+    loading.style.display = 'none';
+
+    if (error || !events || !events.length) {
+      empty.style.display = 'block'; return;
+    }
+
+    events.forEach(ev => {
+      const d = new Date(ev.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+      const t = new Date(ev.date).toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+      const badge = catClass[ev.category] || '';
+      const img = ev.image_url || 'https://placehold.co/400x220/1e1b4b/818cf8?text=Event';
+      const card = document.createElement('a');
+      card.href = `event-detail.html?id=${ev.id}`;
+      card.className = 'event-card animate-on-scroll';
+      card.dataset.title = (ev.title||'').toLowerCase();
+      card.dataset.cat = ev.category || '';
+      card.innerHTML = `
+        <div class="event-card-inner">
+          <div class="event-card-img">
+            <div class="bg" style="background-image:url('${img}')"></div>
+            <div class="overlay"></div>
+            <span class="cat-badge ${badge}">${ev.category||'Event'}</span>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-card-title">${ev.title||''}</h3>
+            <p class="event-card-desc">${ev.description||''}</p>
+            <div class="event-card-meta">
+              <span class="event-card-date">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                ${d} at ${t}
+              </span>
+            </div>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  } catch(e) {
+    loading.style.display = 'none';
+    empty.style.display = 'block';
+  }
+})();
+</script>
+<script>
+// Marquee — load real clubs from Supabase
+(async function() {
+  let names = [];
+  try {
+    const { data } = await sb.from('clubs').select('name').order('name');
+    if (data && data.length) names = data.map(c => c.name);
+  } catch(e) {}
+  // fallback if no clubs yet
+  if (!names.length) names = ["CAME Club","SCOPE Club","NSS Club","CIE Club","STM Club","EWB Club","AIM Club","SQUAD Club","HACNIC Club","APEX Club","Aero Club","Club Literati"];
+const track = document.getElementById('marquee-track');
+const starSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+[...clubs,...clubs].forEach(name => {
+  track.innerHTML += `<div class="marquee-item"><div class="marquee-dot">${starSvg}</div><span class="marquee-name">${name}</span><span class="marquee-sep">•</span></div>`;
+});
+
+// Sample static event cards
+const events = [
+  {id:1,title:"Annual Hackathon 2025",club:"Coding Club",desc:"48-hour coding marathon. Build something amazing.",date:"Apr 20, 2025",time:"9:00 AM",loc:"Tech Block A",cat:"Technology",img:"../artifacts/college-event-hub/public/events/hackathon.png",reg:45,cap:100},
+  {id:2,title:"Music Fest Spring",club:"Harmony Music",desc:"Live performances from campus bands and solo artists.",date:"Apr 25, 2025",time:"6:00 PM",loc:"Open Air Stage",cat:"Arts",img:"../artifacts/college-event-hub/public/events/music-fest.png",reg:180,cap:200},
+  {id:3,title:"Tech Conference",club:"Tech Innovators",desc:"Industry speakers, workshops, and networking sessions.",date:"May 2, 2025",time:"10:00 AM",loc:"Auditorium",cat:"Technology",img:"../artifacts/college-event-hub/public/events/tech-conference.png",reg:60,cap:150},
+  {id:4,title:"Art Exhibition",club:"Canvas Collective",desc:"Showcasing student artwork across all mediums.",date:"May 5, 2025",time:"11:00 AM",loc:"Gallery Hall",cat:"Arts",img:"../artifacts/college-event-hub/public/events/art-exhibition.png",reg:30,cap:80},
+  {id:5,title:"Sports Day",club:"SportsFest",desc:"Inter-department sports competitions and fun games.",date:"May 10, 2025",time:"8:00 AM",loc:"Sports Ground",cat:"Sports",img:"../artifacts/college-event-hub/public/events/sports-day.png",reg:90,cap:120},
+  {id:6,title:"Cultural Night",club:"Cultural Fusion",desc:"A celebration of diverse cultures through dance and food.",date:"May 15, 2025",time:"7:00 PM",loc:"Main Hall",cat:"Culture",img:"../artifacts/college-event-hub/public/events/cultural-night.png",reg:110,cap:200},
+];
+const catClass = {Technology:'cat-tech',Arts:'cat-arts',Sports:'cat-sports',Culture:'cat-culture',Academic:'cat-academic'};
+const grid = document.getElementById('events-grid');
+events.forEach(e => {
+  const pct = Math.round((e.reg/e.cap)*100);
+  grid.innerHTML += `
+  <a href="event-detail.html?id=${e.id}" class="event-card animate-on-scroll">
+    <div class="event-card-inner">
+    <div class="event-card-img">
+      <div class="bg" style="background-image:url('${e.img}')"></div>
+      <div class="overlay"></div>
+      <span class="cat-badge ${catClass[e.cat]||''}">${e.cat}</span>
+    </div>
+    <div class="event-card-body">
+      <h3 class="event-card-title">${e.title}</h3>
+      <p class="event-card-club">by ${e.club}</p>
+      <p class="event-card-desc">${e.desc}</p>
+      <div class="event-meta">
+        <div class="event-meta-row"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${e.date} at ${e.time}</div>
+        <div class="event-meta-row"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="var(--secondary)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${e.loc}</div>
+      </div>
+      <div class="capacity-row"><span style="display:flex;align-items:center;gap:.25rem;color:var(--muted-fg)"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${e.reg}/${e.cap}</span><span style="color:${pct>=90?'#f87171':'#4ade80'};font-weight:500">${e.cap-e.reg} spots left</span></div>
+      <div class="progress-bar"><div class="progress-fill${pct>=90?' danger':''}" data-width="${pct}" style="width:0"></div></div>
+    </div>
+    </div>
+  </a>`;
+});
+</script>
+<script>
+// TV power switch
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    var track  = document.getElementById('tv-switch-track');
+    var thumb  = document.getElementById('tv-switch-thumb');
+    var video  = document.getElementById('tv-video');
+    var offScr = document.getElementById('tv-off-screen');
+    if (!track) return;
+
+    var on = false;
+
+    track.style.cursor = 'pointer';
+    track.addEventListener('click', function(e) {
+      e.stopPropagation();
+      on = !on;
+
+      if (on) {
+        track.style.background = '#4ade80';
+        thumb.style.transform  = 'translateX(.95em)';
+        thumb.style.background = '#fff';
+        offScr.innerHTML = '<div style="width:11em;height:7.75em;background:#111;display:flex;align-items:center;justify-content:center;"><div style="width:1.5em;height:1.5em;border:2px solid #4ade80;border-top-color:transparent;border-radius:50%;animation:spin 0.7s linear infinite"></div></div>';
+        video.load();
+        setTimeout(function() {
+          video.play();
+          video.style.opacity = '1';
+          offScr.style.opacity = '0';
+          setTimeout(function(){ offScr.style.display='none'; }, 800);
+        }, 700);
+      } else {
+        track.style.background = '#333';
+        thumb.style.transform  = 'translateX(0)';
+        thumb.style.background = '#888';
+        video.style.opacity    = '0';
+        offScr.style.display   = 'flex';
+        offScr.style.opacity   = '1';
+        offScr.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#4ade80" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg><span style="color:#4ade80;font-size:.55em;font-weight:700;letter-spacing:.1em;font-family:monospace;margin-top:.3em">TURN ON</span>';
+        setTimeout(function(){ video.pause(); video.currentTime = 0; }, 800);
+      }
+    });
+  });
+})();
+</script>
+<script src="click-spark.js"></script></body>
+</html>

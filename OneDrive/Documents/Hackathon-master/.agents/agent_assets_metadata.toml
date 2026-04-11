@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "WZMt-gtgu4TsfpSpqg_F3"
+uri = "file://artifacts/college-event-hub/public/events/tech-conference.png"
+type = "image"
+title = "tech conference event cover"
+
+[[generated]]
+id = "EQDkiiGkusrboCBxg6qEy"
+uri = "file://artifacts/college-event-hub/public/events/music-fest.png"
+type = "image"
+title = "music fest event cover"
+
+[[generated]]
+id = "ogd_WCCM4N-LdFC9mEyfW"
+uri = "file://artifacts/college-event-hub/public/events/art-exhibition.png"
+type = "image"
+title = "art exhibition event cover"
+
+[[generated]]
+id = "tqnik7Eja8vI_Fkq-8igk"
+uri = "file://artifacts/college-event-hub/public/events/sports-day.png"
+type = "image"
+title = "sports day event cover"
+
+[[generated]]
+id = "Yg9pJQww9Qn5jmLP_WDvx"
+uri = "file://artifacts/college-event-hub/public/events/hackathon.png"
+type = "image"
+title = "hackathon event cover"
+
+[[generated]]
+id = "gj4Z_nq19g6TGO8dl_QgK"
+uri = "file://artifacts/college-event-hub/public/events/cultural-night.png"
+type = "image"
+title = "cultural night event cover"
+
+[[generated]]
+id = "rUpE-5vJdin5nmZiGFBuC"
+uri = "file://artifacts/college-event-hub/public/clubs/cs-club.png"
+type = "image"
+title = "computer science club logo"
+
+[[generated]]
+id = "LrPlCTX_D-KWst8Vbxzw2"
+uri = "file://artifacts/college-event-hub/public/clubs/music-club.png"
+type = "image"
+title = "music club logo"
+
+[[generated]]
+id = "b1rBtNkw9lP5or_PHRhm1"
+uri = "file://artifacts/college-event-hub/public/clubs/robotics-club.png"
+type = "image"
+title = "robotics club logo"
+
+[[generated]]
+id = "VQrD4WB-cIdXaz6AUxwAK"
+uri = "file://artifacts/college-event-hub/public/clubs/art-club.png"
+type = "image"
+title = "art club logo"

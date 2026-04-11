@@ -1,0 +1,607 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: College Event Hub API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: events
+    description: Event operations
+  - name: registrations
+    description: Registration operations
+  - name: clubs
+    description: Club operations
+  - name: attendance
+    description: Attendance operations
+  - name: dashboard
+    description: Dashboard summary operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /events:
+    get:
+      operationId: listEvents
+      tags: [events]
+      summary: List all events
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: upcoming
+          in: query
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+    post:
+      operationId: createEvent
+      tags: [events]
+      summary: Create a new event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEventBody"
+      responses:
+        "201":
+          description: Created event
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+
+  /events/{id}:
+    get:
+      operationId: getEvent
+      tags: [events]
+      summary: Get event by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Event details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateEvent
+      tags: [events]
+      summary: Update event
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateEventBody"
+      responses:
+        "200":
+          description: Updated event
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+    delete:
+      operationId: deleteEvent
+      tags: [events]
+      summary: Delete event
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /events/{id}/featured-image:
+    get:
+      operationId: getEventFeaturedImage
+      tags: [events]
+      summary: Get the featured image URL for an event
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Featured image
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                required: [url]
+
+  /registrations:
+    get:
+      operationId: listRegistrations
+      tags: [registrations]
+      summary: List registrations
+      parameters:
+        - name: eventId
+          in: query
+          schema:
+            type: integer
+        - name: studentName
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of registrations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Registration"
+    post:
+      operationId: createRegistration
+      tags: [registrations]
+      summary: Register for an event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRegistrationBody"
+      responses:
+        "201":
+          description: Created registration with QR code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Registration"
+
+  /registrations/{id}:
+    get:
+      operationId: getRegistration
+      tags: [registrations]
+      summary: Get registration by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Registration details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Registration"
+
+  /registrations/{id}/qr:
+    get:
+      operationId: getRegistrationQr
+      tags: [registrations]
+      summary: Get QR code for a registration
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: QR code data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qrCode:
+                    type: string
+                  registrationId:
+                    type: integer
+                required: [qrCode, registrationId]
+
+  /clubs:
+    get:
+      operationId: listClubs
+      tags: [clubs]
+      summary: List all clubs
+      responses:
+        "200":
+          description: List of clubs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Club"
+    post:
+      operationId: createClub
+      tags: [clubs]
+      summary: Create a club
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateClubBody"
+      responses:
+        "201":
+          description: Created club
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Club"
+
+  /clubs/{id}:
+    get:
+      operationId: getClub
+      tags: [clubs]
+      summary: Get club by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Club details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Club"
+
+  /attendance:
+    get:
+      operationId: listAttendance
+      tags: [attendance]
+      summary: List attendance records
+      parameters:
+        - name: eventId
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Attendance records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Attendance"
+    post:
+      operationId: markAttendance
+      tags: [attendance]
+      summary: Mark attendance via QR code scan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MarkAttendanceBody"
+      responses:
+        "201":
+          description: Attendance marked
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Attendance"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Get overall dashboard statistics
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+  /dashboard/upcoming-events:
+    get:
+      operationId: getUpcomingEvents
+      tags: [dashboard]
+      summary: Get upcoming events for student dashboard
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Upcoming events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+
+  /dashboard/event-stats:
+    get:
+      operationId: getEventStats
+      tags: [dashboard]
+      summary: Get per-event attendance statistics for organizer charts
+      responses:
+        "200":
+          description: Event stats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EventStat"
+
+  /dashboard/category-breakdown:
+    get:
+      operationId: getCategoryBreakdown
+      tags: [dashboard]
+      summary: Get event count grouped by category
+      responses:
+        "200":
+          description: Category breakdown
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CategoryCount"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required: [status]
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+        location:
+          type: string
+        category:
+          type: string
+        capacity:
+          type: integer
+        registeredCount:
+          type: integer
+        attendedCount:
+          type: integer
+        imageUrl:
+          type: string
+        clubId:
+          type: integer
+        clubName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, title, description, date, location, category, capacity, registeredCount, attendedCount, createdAt]
+
+    CreateEventBody:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+        location:
+          type: string
+        category:
+          type: string
+        capacity:
+          type: integer
+        imageUrl:
+          type: string
+        clubId:
+          type: integer
+      required: [title, description, date, location, category, capacity]
+
+    UpdateEventBody:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+        location:
+          type: string
+        category:
+          type: string
+        capacity:
+          type: integer
+        imageUrl:
+          type: string
+
+    Registration:
+      type: object
+      properties:
+        id:
+          type: integer
+        eventId:
+          type: integer
+        studentName:
+          type: string
+        studentEmail:
+          type: string
+        qrCode:
+          type: string
+        attended:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, eventId, studentName, studentEmail, qrCode, attended, createdAt]
+
+    CreateRegistrationBody:
+      type: object
+      properties:
+        eventId:
+          type: integer
+        studentName:
+          type: string
+        studentEmail:
+          type: string
+      required: [eventId, studentName, studentEmail]
+
+    Attendance:
+      type: object
+      properties:
+        id:
+          type: integer
+        registrationId:
+          type: integer
+        eventId:
+          type: integer
+        studentName:
+          type: string
+        markedAt:
+          type: string
+          format: date-time
+      required: [id, registrationId, eventId, studentName, markedAt]
+
+    MarkAttendanceBody:
+      type: object
+      properties:
+        qrCode:
+          type: string
+        eventId:
+          type: integer
+      required: [qrCode, eventId]
+
+    Club:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        logoUrl:
+          type: string
+        category:
+          type: string
+        memberCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, name, description, category, memberCount, createdAt]
+
+    CreateClubBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        logoUrl:
+          type: string
+        category:
+          type: string
+      required: [name, description, category]
+
+    DashboardSummary:
+      type: object
+      properties:
+        totalEvents:
+          type: integer
+        totalRegistrations:
+          type: integer
+        totalAttendance:
+          type: integer
+        totalClubs:
+          type: integer
+        upcomingEventsCount:
+          type: integer
+        attendanceRate:
+          type: number
+      required: [totalEvents, totalRegistrations, totalAttendance, totalClubs, upcomingEventsCount, attendanceRate]
+
+    EventStat:
+      type: object
+      properties:
+        eventId:
+          type: integer
+        eventTitle:
+          type: string
+        registered:
+          type: integer
+        attended:
+          type: integer
+      required: [eventId, eventTitle, registered, attended]
+
+    CategoryCount:
+      type: object
+      properties:
+        category:
+          type: string
+        count:
+          type: integer
+      required: [category, count]

@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "College Event Hub"
+version = "1.0.0"
+id = "artifacts/college-event-hub"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22565
+
+[services.development]
+run = "pnpm --filter @workspace/college-event-hub run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/college-event-hub", "run", "build" ]
+publicDir = "artifacts/college-event-hub/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22565"
+BASE_PATH = "/"
