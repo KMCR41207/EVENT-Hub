@@ -9,7 +9,9 @@ import {
   Filter,
   CheckCircle,
   TrendingUp,
-  AlertCircle
+  AlertCircle,
+  Zap,
+  Target
 } from "lucide-react";
 
 const loads = [
