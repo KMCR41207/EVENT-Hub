@@ -10,7 +10,9 @@ import {
   Weight, 
   Clock,
   ArrowLeft,
-  Save
+  Save,
+  CheckCircle,
+  AlertCircle
 } from "lucide-react";
 
 export function PostLoad() {
