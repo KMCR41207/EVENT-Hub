@@ -318,7 +318,10 @@ function MetricCard({ title, value, change, trend, icon, color, onClick }: Metri
         </div>
         <div className="text-2xl font-bold text-gray-900 mb-1">{value}</div>
         <div className="text-sm text-gray-600 mb-2">{title}</div>
-        <div className="text-xs text-gray-500">{change}</div>
+        <div className="text-xs text-gray-500 flex items-center justify-between">
+          <span>{change}</span>
+          <span className="text-gray-400">• Updated now</span>
+        </div>
       </div>
     </div>
   );
