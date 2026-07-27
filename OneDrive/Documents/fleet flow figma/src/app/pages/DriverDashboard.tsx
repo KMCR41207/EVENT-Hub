@@ -10,7 +10,9 @@ import {
   CheckCircle,
   AlertCircle,
   Navigation,
-  X
+  X,
+  Zap,
+  Award
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -454,7 +456,7 @@ export function DriverDashboard() {
 
       {/* Metric Detail Modals */}
       {selectedMetric && (
-        <TradingMetricModal 
+        <MetricDetailModal 
           metric={selectedMetric} 
           onClose={() => setSelectedMetric(null)} 
         />
