@@ -1,5 +1,5 @@
 import { DashboardLayout } from "../components/DashboardLayout";
-import { Truck, TrendingUp, DollarSign, Users, X, Package, CheckCircle, MapPin, Calendar } from "lucide-react";
+import { Truck, TrendingUp, DollarSign, Users, X, Package, CheckCircle, MapPin, Calendar, Shield, Lock } from "lucide-react";
 import { useState } from "react";
 
 export function AdminFleetOwners() {
