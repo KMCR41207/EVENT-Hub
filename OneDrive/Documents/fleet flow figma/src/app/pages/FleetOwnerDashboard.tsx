@@ -16,7 +16,9 @@ import {
   CheckCircle,
   Eye,
   Calendar,
-  Weight
+  Weight,
+  Star,
+  Flame
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
