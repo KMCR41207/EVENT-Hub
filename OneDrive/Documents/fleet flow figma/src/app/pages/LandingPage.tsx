@@ -22,7 +22,10 @@ export function LandingPage() {
                 className="w-16 h-16 object-contain"
               />
               <div>
-                <div className="text-xl font-bold text-gray-900">Logistix</div>
+                <div className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  Logistix 
+                  <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-1 rounded-full">v2.1</span>
+                </div>
                 <div className="text-xs text-gray-500">by SVLT</div>
               </div>
             </div>
@@ -747,13 +750,24 @@ function FeatureCard({ icon, title, description, color }: FeatureCardProps) {
     pink: "bg-pink-100 text-pink-600",
   }[color];
 
+  // Mark Smart Notifications as new feature
+  const isNewFeature = title === "Smart Notifications";
+
   return (
-    <div className="bg-white p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+    <div className="bg-white p-8 rounded-xl border border-gray-200 hover:shadow-lg transition relative group">
+      {isNewFeature && (
+        <div className="absolute -top-3 -right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+          NEW
+        </div>
+      )}
       <div className={`w-16 h-16 rounded-lg ${colorClasses} flex items-center justify-center mb-4`}>
         {icon}
       </div>
       <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
       <p className="text-gray-600">{description}</p>
+      <div className="mt-4 pt-4 border-t border-gray-100 opacity-0 group-hover:opacity-100 transition">
+        <p className="text-xs text-blue-600 font-semibold">Available Now →</p>
+      </div>
     </div>
   );
 }
