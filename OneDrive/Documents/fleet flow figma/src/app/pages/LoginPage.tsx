@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Truck, User, Lock, Eye, EyeOff } from "lucide-react";
+import { Truck, User, Lock, Eye, EyeOff, Copy, Check } from "lucide-react";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -10,6 +10,7 @@ export function LoginPage() {
   const [users, setUsers] = useState<any>({});
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Load users from localStorage on component mount
   useEffect(() => {
@@ -180,6 +181,13 @@ export function LoginPage() {
     }, 500);
   };
 
+  const copyCredentials = (userId: string, password: string) => {
+    const credentials = `ID: ${userId} | Pass: ${password}`;
+    navigator.clipboard.writeText(credentials);
+    setCopiedId(userId);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative">
       {/* Background Image */}
@@ -284,26 +292,58 @@ export function LoginPage() {
           <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-xs text-gray-500 text-center mb-3">Quick Demo Access</p>
             <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
-              <div className="bg-gray-50 p-2 rounded">
-                <div className="font-semibold">Admin</div>
+              <button 
+                onClick={() => copyCredentials('ADMIN001', 'admin123')}
+                className="bg-gray-50 p-2 rounded hover:bg-gray-100 transition text-left group"
+              >
+                <div className="font-semibold flex items-center justify-between">
+                  Admin
+                  <span className="opacity-0 group-hover:opacity-100 transition">
+                    {copiedId === 'ADMIN001' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  </span>
+                </div>
                 <div>ID: ADMIN001</div>
                 <div className="text-gray-400">Pass: admin123</div>
-              </div>
-              <div className="bg-gray-50 p-2 rounded">
-                <div className="font-semibold">Fleet Owner</div>
+              </button>
+              <button 
+                onClick={() => copyCredentials('FO001', 'fleet123')}
+                className="bg-gray-50 p-2 rounded hover:bg-gray-100 transition text-left group"
+              >
+                <div className="font-semibold flex items-center justify-between">
+                  Fleet Owner
+                  <span className="opacity-0 group-hover:opacity-100 transition">
+                    {copiedId === 'FO001' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  </span>
+                </div>
                 <div>ID: FO001</div>
                 <div className="text-gray-400">Pass: fleet123</div>
-              </div>
-              <div className="bg-gray-50 p-2 rounded">
-                <div className="font-semibold">Driver</div>
+              </button>
+              <button 
+                onClick={() => copyCredentials('DR001', 'driver123')}
+                className="bg-gray-50 p-2 rounded hover:bg-gray-100 transition text-left group"
+              >
+                <div className="font-semibold flex items-center justify-between">
+                  Driver
+                  <span className="opacity-0 group-hover:opacity-100 transition">
+                    {copiedId === 'DR001' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  </span>
+                </div>
                 <div>ID: DR001</div>
                 <div className="text-gray-400">Pass: driver123</div>
-              </div>
-              <div className="bg-gray-50 p-2 rounded">
-                <div className="font-semibold">Shipper</div>
+              </button>
+              <button 
+                onClick={() => copyCredentials('SH001', 'shipper123')}
+                className="bg-gray-50 p-2 rounded hover:bg-gray-100 transition text-left group"
+              >
+                <div className="font-semibold flex items-center justify-between">
+                  Shipper
+                  <span className="opacity-0 group-hover:opacity-100 transition">
+                    {copiedId === 'SH001' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  </span>
+                </div>
                 <div>ID: SH001</div>
                 <div className="text-gray-400">Pass: shipper123</div>
-              </div>
+              </button>
             </div>
           </div>
 
