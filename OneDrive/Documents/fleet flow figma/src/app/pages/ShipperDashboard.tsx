@@ -12,7 +12,9 @@ import {
   Plus,
   Filter,
   X,
-  TrendingDown
+  TrendingDown,
+  AlertCircle,
+  GitCommit
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
