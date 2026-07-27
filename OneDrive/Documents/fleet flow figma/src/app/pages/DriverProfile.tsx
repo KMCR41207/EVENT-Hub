@@ -10,7 +10,9 @@ import {
   Star, 
   TrendingUp,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  Award,
+  Heart
 } from "lucide-react";
 import { DashboardLayout } from "../components/DashboardLayout";
 
