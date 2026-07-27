@@ -188,6 +188,12 @@ export function LoginPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && userId && password && !isLoading) {
+      handleLogin(e as any);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative">
       {/* Background Image */}
@@ -232,6 +238,8 @@ export function LoginPage() {
                   className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                   placeholder="Enter your User ID"
                   required
+                  aria-label="User ID"
+                  autoComplete="username"
                 />
               </div>
             </div>
@@ -245,9 +253,11 @@ export function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   className="w-full pl-11 pr-11 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                   placeholder="••••••••"
                   required
+                  aria-label="Password"
                 />
                 <button
                   type="button"
