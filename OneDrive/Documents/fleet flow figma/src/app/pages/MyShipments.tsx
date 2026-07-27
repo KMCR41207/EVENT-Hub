@@ -21,7 +21,9 @@ import {
   Download,
   X,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Radio,
+  Zap
 } from "lucide-react";
 
 // Sample shipment data - will be replaced with localStorage data
