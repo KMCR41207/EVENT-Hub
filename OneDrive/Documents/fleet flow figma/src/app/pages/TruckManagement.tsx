@@ -12,7 +12,9 @@ import {
   Wrench,
   CheckCircle,
   AlertCircle,
-  Clock
+  Clock,
+  TrendingUp,
+  Gauge
 } from "lucide-react";
 
 const trucks = [
