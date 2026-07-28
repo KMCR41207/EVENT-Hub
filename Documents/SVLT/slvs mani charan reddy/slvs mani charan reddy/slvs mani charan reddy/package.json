@@ -1,8 +1,11 @@
 {
   "name": "fleetflow",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Complete FleetFlow Fleet Management & Logistics Platform",
   "main": "api/index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "node api/index.js",
     "dev": "nodemon --exec \"node --no-deprecation\" api/index.js",
