@@ -59,6 +59,7 @@
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('login')">Sign In</button>
+            <button class="tab" onclick="switchTab('register')">Register</button>
         </div>
 
         <!-- Login Tab -->
@@ -83,38 +84,40 @@
                 <button type="submit">Sign In</button>
             </form>
             
-            <div style="text-align: center; margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #667eea;">
+            <div style="text-align: center; margin-top: 1.5rem;">
                 <p style="color: #666; font-size: 0.9rem;">
-                    <strong>Note:</strong> New accounts can only be created by administrators. Please contact your system administrator for access.
+                    Don't have an account? <a onclick="switchTab('register')" style="color:#667eea;cursor:pointer;font-weight:600;">Register here</a>
                 </p>
             </div>
         </div>
 
-        <!-- Register Tab - Hidden, kept for admin use -->
-        <div id="register" class="tab-content" style="display: none !important;">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="regName" placeholder="John Doe"/>
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="regEmail" placeholder="your@email.com"/>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="regPassword" placeholder="••••••••"/>
-            </div>
-            <div class="form-group">
-                <label>Role</label>
-                <select id="regRole" onchange="updateRoleFields()">
-                    <option value="">-- Select Role --</option>
-                    <option value="driver">Truck Driver</option>
-                    <option value="fleet_owner">Fleet Owner</option>
-                    <option value="shipper">Shipper / Load Provider</option>
-                </select>
-            </div>
-            <div id="roleFields"></div>
-            <button onclick="register()">Create Account</button>
+        <!-- Register Tab -->
+        <div id="register" class="tab-content">
+            <form id="registerForm" onsubmit="return register(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" placeholder="John Doe" required/>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" placeholder="your@email.com" required/>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" placeholder="••••••••" minlength="6" required/>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="regRole" onchange="updateRoleFields()" required>
+                        <option value="">-- Select Role --</option>
+                        <option value="driver">Truck Driver</option>
+                        <option value="fleet_owner">Fleet Owner</option>
+                        <option value="shipper">Shipper / Load Provider</option>
+                    </select>
+                </div>
+                <div id="roleFields"></div>
+                <button type="submit">Create Account</button>
+            </form>
         </div>
     </div>
 
@@ -153,6 +156,11 @@
 
             if (!email || !password) {
                 alert('Please fill all fields');
+                return false;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Please enter a valid email address');
                 return false;
             }
 
@@ -223,45 +231,55 @@
             return false;
         }
 
-        function register() {
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
+        function register(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value;
             const role = document.getElementById('regRole').value;
 
             if (!name || !email || !password || !role) {
                 alert('Please fill all required fields');
-                return;
+                return false;
             }
 
             const payload = { name, email, password, role };
             
             if (role === 'driver') {
-                payload.license_number = document.getElementById('licenseNumber').value;
+                const lic = document.getElementById('licenseNumber');
+                if (lic) payload.license_number = lic.value;
             } else if (role === 'fleet_owner') {
-                payload.company_name = document.getElementById('companyName').value;
+                const co = document.getElementById('companyName');
+                if (co) payload.company_name = co.value;
             }
+
+            const submitBtn = document.querySelector('#registerForm button[type="submit"]');
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Creating...'; }
 
             fetch(`${API_URL}/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-            .then(r => r.json())
+            .then(async r => {
+                const data = await r.json();
+                if (data.error) throw new Error(data.error);
+                return data;
+            })
             .then(data => {
-                if (data.error) {
-                    alert('❌ ' + data.error);
-                    return;
-                }
-
-                alert('✅ Account created successfully! Logging in...');
+                alert('✅ Account created successfully!');
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userId', data.user.id);
                 localStorage.setItem('userRole', data.user.role);
 
                 const rolePages = { driver: 'driver.html', fleet_owner: 'fleet-owner.html', shipper: 'shipper.html', admin: 'admin.html' };
-                window.location.href = rolePages[role] || 'driver.html';
+                window.location.href = rolePages[data.user.role] || 'driver.html';
+            })
+            .catch(err => {
+                alert('❌ ' + err.message);
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Create Account'; }
             });
+            return false;
         }
 
         // Check if already logged in
