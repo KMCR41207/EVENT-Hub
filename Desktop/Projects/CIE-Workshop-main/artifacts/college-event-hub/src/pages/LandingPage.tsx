@@ -143,6 +143,11 @@ export default function LandingPage() {
                   <Link href="/clubs">Meet Clubs</Link>
                 </Button>
               </motion.div>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button asChild variant="secondary" size="sm" className="rounded-full">
+                  <Link href="/organizer">Become Organizer</Link>
+                </Button>
+              </motion.div>
             </div>
           </motion.div>
 
