@@ -168,6 +168,9 @@ export default function LandingPage() {
                 <div key={stat.label} className="text-center glass-panel rounded-2xl py-4 px-3">
                   <p className="font-display font-bold text-3xl text-foreground">{stat.value}</p>
                   <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
+                  <Button asChild variant="ghost" size="sm" className="mt-3 rounded-full">
+                    <Link href="/events">See more</Link>
+                  </Button>
                 </div>
               ))}
             </motion.div>
