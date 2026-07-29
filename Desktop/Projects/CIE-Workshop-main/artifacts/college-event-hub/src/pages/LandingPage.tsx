@@ -285,6 +285,14 @@ export default function LandingPage() {
                 </div>
                 <h3 className="font-display font-semibold text-lg mb-2">{f.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Button asChild variant="ghost" size="sm" className="rounded-full">
+                    <Link href="/events">Open</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className="rounded-full">
+                    <Link href="/clubs">Learn more</Link>
+                  </Button>
+                </div>
               </motion.div>
             ))}
           </motion.div>
