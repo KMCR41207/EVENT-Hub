@@ -377,6 +377,9 @@ export default function LandingPage() {
             <Button asChild variant="ghost" size="sm" className="rounded-full">
               <Link href="/student">Students</Link>
             </Button>
+            <Button asChild variant="outline" size="sm" className="rounded-full">
+              <Link href="/organizer">Organizers</Link>
+            </Button>
           </div>
         </div>
       </footer>
