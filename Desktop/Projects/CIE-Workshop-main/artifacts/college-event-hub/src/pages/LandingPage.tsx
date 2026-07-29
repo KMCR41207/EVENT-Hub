@@ -346,6 +346,9 @@ export default function LandingPage() {
                 <Button asChild variant="outline" size="sm" className="rounded-full">
                   <Link href="/clubs">See Club Picks</Link>
                 </Button>
+                <Button asChild variant="ghost" size="sm" className="rounded-full">
+                  <Link href="/student">Join Now</Link>
+                </Button>
               </div>
             </div>
           </motion.div>
