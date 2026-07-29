@@ -323,6 +323,14 @@ export default function LandingPage() {
                   </Link>
                 </motion.div>
               </div>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                <Button asChild variant="secondary" size="sm" className="rounded-full">
+                  <Link href="/events">Reserve a Spot</Link>
+                </Button>
+                <Button asChild variant="outline" size="sm" className="rounded-full">
+                  <Link href="/clubs">See Club Picks</Link>
+                </Button>
+              </div>
             </div>
           </motion.div>
         </div>
