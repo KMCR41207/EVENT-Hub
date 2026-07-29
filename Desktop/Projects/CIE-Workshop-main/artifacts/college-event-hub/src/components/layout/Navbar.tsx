@@ -59,7 +59,10 @@ export function Navbar() {
             </nav>
           </div>
           
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center gap-2">
+            <Button asChild variant="ghost" size="sm" className="rounded-full">
+              <Link href="/clubs">Clubs</Link>
+            </Button>
             <Button asChild variant="default" className="rounded-full font-medium">
               <Link href="/events">Explore Events</Link>
             </Button>
