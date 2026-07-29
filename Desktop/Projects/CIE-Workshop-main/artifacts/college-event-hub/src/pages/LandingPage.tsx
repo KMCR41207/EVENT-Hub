@@ -220,9 +220,14 @@ export default function LandingPage() {
                 Upcoming Events
               </h2>
             </div>
-            <Link href="/events" className="hidden sm:flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors">
-              View all <ArrowRight className="h-4 w-4" />
-            </Link>
+            <div className="hidden sm:flex items-center gap-2">
+              <Button asChild variant="ghost" size="sm" className="rounded-full">
+                <Link href="/events">View all</Link>
+              </Button>
+              <Button asChild variant="outline" size="sm" className="rounded-full">
+                <Link href="/student">Register now</Link>
+              </Button>
+            </div>
           </motion.div>
 
           <motion.div
