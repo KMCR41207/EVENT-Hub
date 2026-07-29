@@ -135,6 +135,19 @@ export default function LandingPage() {
             <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm">
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                 <Button asChild variant="outline" size="sm" className="rounded-full">
+                  <Link href="/events">Upcoming Picks</Link>
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button asChild variant="secondary" size="sm" className="rounded-full">
+                  <Link href="/clubs">Campus Favorites</Link>
+                </Button>
+              </motion.div>
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm">
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button asChild variant="outline" size="sm" className="rounded-full">
                   <Link href="/events">View Calendar</Link>
                 </Button>
               </motion.div>
