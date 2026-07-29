@@ -106,7 +106,7 @@ export default function LandingPage() {
                 transition={{ type: "spring", stiffness: 500, damping: 20 }}>
                 <Link
                   href="/events"
-                  className="flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-full font-semibold text-base hover:bg-primary/90 transition-colors shadow-lg shadow-primary/30"
+                  className="flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-full font-semibold text-base hover:bg-primary/90 transition-all border border-primary/40 shadow-lg shadow-primary/30"
                 >
                   Browse Events <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -115,7 +115,7 @@ export default function LandingPage() {
                 transition={{ type: "spring", stiffness: 500, damping: 20 }}>
                 <Link
                   href="/student"
-                  className="flex items-center gap-2 px-8 py-4 border border-border bg-card/50 backdrop-blur-sm text-foreground rounded-full font-semibold text-base hover:bg-card transition-colors"
+                  className="flex items-center gap-2 px-8 py-4 border border-border bg-card/50 backdrop-blur-sm text-foreground rounded-full font-semibold text-base hover:bg-card hover:border-primary/40 transition-all"
                 >
                   Student Portal
                 </Link>
