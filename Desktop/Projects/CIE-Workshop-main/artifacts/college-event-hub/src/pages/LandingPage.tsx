@@ -335,10 +335,16 @@ export default function LandingPage() {
           <p className="text-sm text-muted-foreground">
             Made for campus life. Built with passion.
           </p>
-          <div className="flex gap-6 text-sm text-muted-foreground">
-            <Link href="/events" className="hover:text-foreground transition-colors">Events</Link>
-            <Link href="/clubs" className="hover:text-foreground transition-colors">Clubs</Link>
-            <Link href="/student" className="hover:text-foreground transition-colors">Students</Link>
+          <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+            <Button asChild variant="ghost" size="sm" className="rounded-full">
+              <Link href="/events">Events</Link>
+            </Button>
+            <Button asChild variant="ghost" size="sm" className="rounded-full">
+              <Link href="/clubs">Clubs</Link>
+            </Button>
+            <Button asChild variant="ghost" size="sm" className="rounded-full">
+              <Link href="/student">Students</Link>
+            </Button>
           </div>
         </div>
       </footer>
