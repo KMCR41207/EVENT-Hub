@@ -124,7 +124,7 @@ export default function LandingPage() {
 
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               {heroActions.map((action) => (
-                <motion.div key={action.label} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <motion.div key={action.label} whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 20 }}>
                   <Button asChild variant={action.variant} className="rounded-full">
                     <Link href={action.href}>{action.label}</Link>
                   </Button>
