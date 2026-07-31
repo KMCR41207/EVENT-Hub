@@ -71,7 +71,9 @@ export function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-muted-foreground hover:text-white transition-colors"
+              aria-expanded={isOpen}
+              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              className="p-2 rounded-full text-muted-foreground hover:text-white hover:bg-white/10 transition-colors ring-1 ring-white/10"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -83,23 +85,27 @@ export function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-card/95 backdrop-blur-xl border-b border-border overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="md:hidden bg-background/95 backdrop-blur-3xl border border-white/10 shadow-2xl shadow-black/10 overflow-hidden"
           >
-            <div className="px-4 pt-2 pb-6 space-y-1">
+            <div className="px-4 pt-4 pb-6 space-y-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="block px-3 py-3 text-base font-medium rounded-md hover:bg-muted/50 transition-colors"
+                  className="block px-4 py-3 text-base font-medium rounded-2xl hover:bg-primary/10 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
                 </Link>
               ))}
-              <div className="pt-4 px-3">
+              <div className="mt-3 rounded-3xl bg-white/5 p-4 border border-white/10">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Fast access to the best campus events and QR check-in tools.
+                </p>
                 <Button asChild className="w-full rounded-full">
                   <Link href="/events" onClick={() => setIsOpen(false)}>Explore Events</Link>
                 </Button>
