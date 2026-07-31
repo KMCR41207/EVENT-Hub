@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
@@ -25,35 +26,69 @@ const queryClient = new QueryClient({
 function AnimatedRouter() {
   const [location] = useLocation();
   const { scrollYProgress } = useScroll();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsLoading(false), 900);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={location}
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -12 }}
-        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        style={{ minHeight: "100vh" }}
-      >
+    <>
+      <AnimatePresence>{isLoading && (
         <motion.div
-          className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary z-50"
-          style={{ scaleX: scrollYProgress }}
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        />
-        <Switch>
-          <Route path="/" component={LandingPage} />
-          <Route path="/events" component={EventsPage} />
-          <Route path="/events/:id" component={EventDetailPage} />
-          <Route path="/student" component={StudentDashboard} />
-          <Route path="/organizer" component={OrganizerDashboard} />
-          <Route path="/clubs" component={ClubsPage} />
-          <Route component={NotFound} />
-        </Switch>
-      </motion.div>
-    </AnimatePresence>
+          className="fixed inset-0 z-50 flex items-center justify-center bg-background text-foreground"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <motion.div
+            className="flex flex-col items-center gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="h-20 w-20 rounded-full border border-primary/30 bg-primary/10 shadow-2xl shadow-primary/10 flex items-center justify-center text-3xl font-extrabold text-primary animate-pulse">
+              EH
+            </div>
+            <p className="text-sm text-muted-foreground uppercase tracking-[0.35em]">
+              Loading EventHub...
+            </p>
+          </motion.div>
+        </motion.div>
+      )}
+      </AnimatePresence>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          style={{ minHeight: "100vh" }}
+        >
+          <motion.div
+            className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary z-50"
+            style={{ scaleX: scrollYProgress }}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          />
+          <Switch>
+            <Route path="/" component={LandingPage} />
+            <Route path="/events" component={EventsPage} />
+            <Route path="/events/:id" component={EventDetailPage} />
+            <Route path="/student" component={StudentDashboard} />
+            <Route path="/organizer" component={OrganizerDashboard} />
+            <Route path="/clubs" component={ClubsPage} />
+            <Route component={NotFound} />
+          </Switch>
+        </motion.div>
+      </AnimatePresence>
+    </>
   );
 }
 
