@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,6 +62,13 @@ export function Navbar() {
           </div>
           
           <div className="hidden md:flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-2 text-muted-foreground transition hover:border-primary/30 hover:text-primary"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </button>
             <Button asChild variant="ghost" size="sm" className="rounded-full">
               <Link href="/clubs">Clubs</Link>
             </Button>
