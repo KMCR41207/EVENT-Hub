@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useLocation } from "wouter";
 import NotFound from "@/pages/not-found";
 import LandingPage from "@/pages/LandingPage";
@@ -24,6 +24,7 @@ const queryClient = new QueryClient({
 
 function AnimatedRouter() {
   const [location] = useLocation();
+  const { scrollYProgress } = useScroll();
 
   return (
     <AnimatePresence mode="wait">
@@ -35,6 +36,13 @@ function AnimatedRouter() {
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
         style={{ minHeight: "100vh" }}
       >
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary z-50"
+          style={{ scaleX: scrollYProgress }}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        />
         <Switch>
           <Route path="/" component={LandingPage} />
           <Route path="/events" component={EventsPage} />
