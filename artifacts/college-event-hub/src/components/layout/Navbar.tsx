@@ -69,14 +69,25 @@ export function Navbar() {
           </div>
 
           <div className="md:hidden">
-            <button
+            <motion.button
               onClick={() => setIsOpen(!isOpen)}
               aria-expanded={isOpen}
               aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 360, damping: 18 }}
               className="p-2 rounded-full text-muted-foreground hover:text-white hover:bg-white/10 transition-colors ring-1 ring-white/10"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+              {isOpen ? (
+                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+                  <X className="h-6 w-6" />
+                </motion.div>
+              ) : (
+                <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+                  <Menu className="h-6 w-6" />
+                </motion.div>
+              )}
+            </motion.button>
           </div>
         </div>
       </div>
