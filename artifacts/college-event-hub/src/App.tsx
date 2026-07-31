@@ -23,6 +23,60 @@ const queryClient = new QueryClient({
   },
 });
 
+function AnimatedCursor() {
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [isActive, setIsActive] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      setCursorPosition({ x: event.clientX, y: event.clientY });
+    };
+
+    const handleMouseDown = () => setIsActive(true);
+    const handleMouseUp = () => setIsActive(false);
+
+    const handleMouseOver = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      setIsHovering(Boolean(target.closest("button, a, input, textarea, select")));
+    };
+
+    const handleMouseOut = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.closest("button, a, input, textarea, select")) {
+        setIsHovering(false);
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mouseover", handleMouseOver);
+    window.addEventListener("mouseout", handleMouseOut);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mouseover", handleMouseOver);
+      window.removeEventListener("mouseout", handleMouseOut);
+    };
+  }, []);
+
+  return (
+    <>
+      <div
+        className={`custom-cursor-ring ${isActive ? "cursor-active" : ""} ${isHovering ? "cursor-hover" : ""}`}
+        style={{ transform: `translate3d(${cursorPosition.x}px, ${cursorPosition.y}px, 0)` }}
+      />
+      <div
+        className={`custom-cursor-dot ${isHovering ? "cursor-hover" : ""}`}
+        style={{ transform: `translate3d(${cursorPosition.x}px, ${cursorPosition.y}px, 0)` }}
+      />
+    </>
+  );
+}
+
 function AnimatedRouter() {
   const [location] = useLocation();
   const { scrollYProgress } = useScroll();
@@ -100,6 +154,7 @@ function App() {
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
             <AnimatedRouter />
           </WouterRouter>
+          <AnimatedCursor />
           <Toaster />
         </TooltipProvider>
       </QueryClientProvider>
